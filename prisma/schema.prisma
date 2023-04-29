@@ -5,9 +5,27 @@ generator client {
     provider = "prisma-client-js"
 }
 
+// datasource db {
+//     provider = "sqlite"
+//     url      = env("DATABASE_URL")
+// }
+
+// datasource db {
+//     provider = "postgresql"
+//     url      = env("DATABASE_URL")
+//     //   url      = "postgresql://user:password@host:port/database?schema=public"
+// }
+// generator client {
+//   provider = "prisma-client-js"
+// }
+
 datasource db {
-    provider = "sqlite"
-    url      = env("DATABASE_URL")
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model Widget {
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
 }
 
 model Example {
