@@ -19,7 +19,6 @@ const Explore: NextPage = () => {
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
     setTrips(JSON.parse(sessionStorage.getItem("MyTrips") as string));
-    // const myTrips: Trip[] =
   }, []);
   return (
     <>

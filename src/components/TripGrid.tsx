@@ -24,6 +24,7 @@ export const TripGrid: React.FC<{
   // }> = ({ trip }) => {
   const [open, setOpen] = useState(false);
   const [selectedTrip, setSelectedTrip] = useState<Trip | null>(null);
+  console.log(trips[0])
   return (
     <>
       <h2 className="pb-8 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
@@ -38,10 +39,14 @@ export const TripGrid: React.FC<{
           <li key={trip.label} className="relative">
             <a
               className="aspect-h-7 aspect-w-10 group block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100"
-              href={"trips/" + String(idx)}
+              href={"trips/" + String(Number(trip.id) - 1)}
               // onClick={() => setSelectedTrip(trip)}
               // onClick={() => setTrip(!open)}
             >
+              {/* {() => {
+                console.log(trip.id);
+                return <></>;
+              }} */}
               {/* {selectedTrip && <TripModal trip={trip}></TripModal>} */}
               <img
                 src={trip.image}

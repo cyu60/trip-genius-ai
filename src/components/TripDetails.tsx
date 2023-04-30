@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { TripHeader } from "./TripHeader";
@@ -11,17 +11,40 @@ const dummyTrip: Trip = trips[2] as Trip;
 export const TripDetails: React.FC<{
   trip: Trip;
 }> = ({ trip }) => {
-  // export default function TripDetails() {
-  const [open, setOpen] = useState(true);
+  const [myTrips, setTrips] = useState<Trip[]>([]);
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
+    setTrips(JSON.parse(sessionStorage.getItem("MyTrips") as string));
+    console.log(myTrips);
+    console.log(trip, myTrips.includes(trip));
+  }, []);
   const addTrip = () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const myTrips: Trip[] = JSON.parse(
-      sessionStorage.getItem("MyTrips") as string
-    );
+    // const myTrips: Trip[] = JSON.parse(
+    //   sessionStorage.getItem("MyTrips") as string
+    // );
     if (myTrips) {
       sessionStorage.setItem("MyTrips", JSON.stringify([...myTrips, trip]));
+      setTrips([...myTrips, trip]);
     } else {
       sessionStorage.setItem("MyTrips", JSON.stringify([trip]));
+      setTrips([trip]);
+    }
+  };
+  const removeTrip = () => {
+    if (myTrips) {
+      const index = myTrips.findIndex((obj) => obj.label === trip.label);
+      // const index = myTrips.indexOf(trip);
+      console.log(index)
+      if (index > -1) {
+        myTrips.splice(index, 1);
+        sessionStorage.setItem("MyTrips", JSON.stringify([...myTrips]));
+        setTrips([...myTrips]);
+        console.log(myTrips);
+      }
+      console.log("trip removed?");
+    } else {
+      return;
     }
   };
 
@@ -76,13 +99,26 @@ export const TripDetails: React.FC<{
           </a>
         </div>
         <div className="pl-3 pt-5">
-          <div
-            // type="button"
-            className="rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            onClick={() => addTrip()}
-          >
-            Add to my trips
-          </div>
+          {!!myTrips &&
+          myTrips.length > 0 &&
+          myTrips.find((obj) => obj.label === trip.label) ? (
+            // {!!myTrips && myTrips.length > 0 && myTrips.includes(trip) ? (
+            <div
+              // type="button"
+              className="rounded-full bg-red-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+              onClick={() => removeTrip()}
+            >
+              Remove trip
+            </div>
+          ) : (
+            <div
+              // type="button"
+              className="rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              onClick={() => addTrip()}
+            >
+              Add to my trips
+            </div>
+          )}
         </div>
       </div>
       <div className="flex h-screen flex-col sm:flex-row">

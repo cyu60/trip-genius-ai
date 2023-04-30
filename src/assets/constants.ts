@@ -1,5 +1,5 @@
 export type Trip = {
-    id: Int16Array;
+    id: number;
     label: string;
     location: string;
     distance: string;
