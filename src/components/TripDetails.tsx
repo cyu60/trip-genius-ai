@@ -5,6 +5,7 @@ import { TripHeader } from "./TripHeader";
 import { Trip, trips } from "~/assets/constants";
 import { TripIteniary } from "./TripIteniary";
 import { MusicList } from "./MusicList";
+import { api } from "~/utils/api";
 
 const dummyTrip: Trip = trips[2] as Trip;
 
@@ -18,6 +19,8 @@ export const TripDetails: React.FC<{
     console.log(myTrips);
     console.log(trip, myTrips.includes(trip));
   }, []);
+  const sendMessageMutation = api.example.sendMessage.useMutation();
+  ({ textMessage: trip.label });
   const addTrip = () => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     // const myTrips: Trip[] = JSON.parse(
@@ -30,19 +33,21 @@ export const TripDetails: React.FC<{
       sessionStorage.setItem("MyTrips", JSON.stringify([trip]));
       setTrips([trip]);
     }
+    sendMessageMutation.mutate({ textMessage: "Whoohoo! You have added a new trip: " + trip.label });
   };
   const removeTrip = () => {
     if (myTrips) {
       const index = myTrips.findIndex((obj) => obj.label === trip.label);
       // const index = myTrips.indexOf(trip);
-      console.log(index)
+      console.log(index);
       if (index > -1) {
         myTrips.splice(index, 1);
         sessionStorage.setItem("MyTrips", JSON.stringify([...myTrips]));
         setTrips([...myTrips]);
         console.log(myTrips);
       }
-      console.log("trip removed?");
+      // console.log("trip removed?");
+      sendMessageMutation.mutate({ textMessage: "Not traveling? You have successfully removed trip: " + trip.label });
     } else {
       return;
     }

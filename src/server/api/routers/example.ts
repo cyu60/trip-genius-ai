@@ -18,11 +18,13 @@ const sendTwilioMsg = async (number: string, info: string) => {
   if (accountSid && authToken && myNumber && twilioNumber) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const client= new Twilio(accountSid, authToken);
+    // from: twilioNumber,
+    // to: myNumber,
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     await client.messages
       .create({
-        from: twilioNumber,
-        to: myNumber,
+        from: '+18885649555',
+        to: '+17706347153',
         body: info,
       })
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
@@ -43,7 +45,7 @@ export const exampleRouter = createTRPCRouter({
     }),
   sendMessage: publicProcedure
     .input(z.object({ textMessage: z.string() }))
-    .query(async ({ input }) => {
+    .mutation(async ({ input }) => {
       await sendTwilioMsg("+14437224218", input.textMessage);
       // return grandparent;
       return;
