@@ -21,9 +21,8 @@ import {
   extractTrip,
   filterMessages,
   replaceImageUrls,
+  replaceImageUrlsToCommand,
 } from "~/components/Google";
-
-
 
 const initialQuestion: ChatCompletionRequestMessage = {
   role: "assistant",
@@ -192,7 +191,7 @@ const UserInputBox: React.FC<{
   setAssistantResponse,
   isLoading,
   setIsLoading,
-  setTrip
+  setTrip,
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
   // const [rows, setRows] = useState(1);
@@ -248,6 +247,9 @@ const UserInputBox: React.FC<{
       const chunkValue = decoder.decode(value);
       setAssistantResponse((prev: string) => prev + chunkValue);
       staticAssistantResponse += chunkValue;
+      staticAssistantResponse = replaceImageUrlsToCommand(
+        staticAssistantResponse
+      );
       window.scrollTo(0, document.body.scrollHeight);
       // console.log(chunkValue, doneReading, assistantResponse);
       if (done) {

@@ -31,6 +31,21 @@ export const replaceImageUrls = async (text: string) => {
   return text;
 };
 
+export const replaceImageUrlsToCommand = (text: string) => {
+  const pattern = /!\[(.+?)\]\((.+?)\)/g;
+  const matches = text.match(pattern);
+
+  if (matches) {
+    for (const match of matches) {
+      const altText = match.match(/!\[(.+?)\]/)![1]!;
+      const imageUrl = match.match(/\((.+?)\)/)![1]!;
+      text = text.replace(match, `SEARCH_IMG("${altText}")`);
+    }
+  }
+
+  return text;
+};
+
 export const extractTrip = (text: string) => {
   const pattern = /CREATE_TRIP\("(.+?)"\)/g;
   const matches = text.match(pattern);
@@ -39,7 +54,7 @@ export const extractTrip = (text: string) => {
     for (const match of matches) {
       const trip = match.match(/CREATE_TRIP\("(.+?)"\)/)![1]!;
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-      console.log("trip info:",  JSON.parse(trip))
+      console.log("trip info:", JSON.parse(trip));
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return JSON.parse(trip);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

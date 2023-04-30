@@ -6,6 +6,7 @@ import { Trip, trips } from "~/assets/constants";
 import { TripIteniary } from "./TripIteniary";
 import { MusicList } from "./MusicList";
 import { api } from "~/utils/api";
+import { PhoneNumberInput } from "./PhoneNumberInput";
 
 const dummyTrip: Trip = trips[2] as Trip;
 
@@ -16,8 +17,8 @@ export const TripDetails: React.FC<{
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
     setTrips(JSON.parse(sessionStorage.getItem("MyTrips") as string));
-    console.log(myTrips);
-    console.log(trip, myTrips.includes(trip));
+    // console.log(myTrips);
+    // console.log(trip, myTrips.includes(trip));
   }, []);
   const sendMessageMutation = api.example.sendMessage.useMutation();
   ({ textMessage: trip.label });
@@ -33,7 +34,9 @@ export const TripDetails: React.FC<{
       sessionStorage.setItem("MyTrips", JSON.stringify([trip]));
       setTrips([trip]);
     }
-    sendMessageMutation.mutate({ textMessage: "Whoohoo! You have added a new trip: " + trip.label });
+    sendMessageMutation.mutate({
+      textMessage: "Whoohoo! You have added a new trip: " + trip.label,
+    });
   };
   const removeTrip = () => {
     if (myTrips) {
@@ -47,10 +50,21 @@ export const TripDetails: React.FC<{
         console.log(myTrips);
       }
       // console.log("trip removed?");
-      sendMessageMutation.mutate({ textMessage: "Not traveling? You have successfully removed trip: " + trip.label });
+      sendMessageMutation.mutate({
+        textMessage:
+          "Not traveling? You have successfully removed trip: " + trip.label,
+      });
     } else {
       return;
     }
+  };
+
+  const checkInMyTrips = () => {
+    return (
+      !!myTrips &&
+      myTrips.length > 0 &&
+      myTrips.find((obj) => obj.label === trip.label)
+    );
   };
 
   return (
@@ -104,9 +118,7 @@ export const TripDetails: React.FC<{
           </a>
         </div>
         <div className="pl-3 pt-5">
-          {!!myTrips &&
-          myTrips.length > 0 &&
-          myTrips.find((obj) => obj.label === trip.label) ? (
+          {checkInMyTrips() ? (
             // {!!myTrips && myTrips.length > 0 && myTrips.includes(trip) ? (
             <div
               // type="button"
@@ -138,6 +150,14 @@ export const TripDetails: React.FC<{
         </div>
         <div className="flex-1 justify-end sm:pl-5">
           <MusicList trip={trip}></MusicList>
+          {checkInMyTrips() && (
+            <>
+              <h2 className="pb-3 pt-8 text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+                Invite your friends to the trip!
+              </h2>
+              <PhoneNumberInput></PhoneNumberInput>
+            </>
+          )}
         </div>
       </div>
       {/* <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">

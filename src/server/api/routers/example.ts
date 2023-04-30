@@ -14,21 +14,24 @@ const sendTwilioMsg = async (number: string, info: string) => {
   const twilioNumber = process.env.TWILIO_NUM;
   // const myNumber = "+15712694598";
   const myNumber = number;
+  console.log(number, info)
 
   if (accountSid && authToken && myNumber && twilioNumber) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const client= new Twilio(accountSid, authToken);
     // from: twilioNumber,
     // to: myNumber,
+    // to: '+17706347153',
+    // from: '+18885649555',
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
     await client.messages
       .create({
-        from: '+18885649555',
-        to: '+17706347153',
+        from: '+16206589732',
+        to: number,
         body: info,
       })
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      .then((message) => console.log(message.sid));
+      .then((message) => console.log(message.sid, message.errorMessage));
   } else {
     console.error(
       "You are missing one of the variables you need to send a message"
@@ -47,6 +50,13 @@ export const exampleRouter = createTRPCRouter({
     .input(z.object({ textMessage: z.string() }))
     .mutation(async ({ input }) => {
       await sendTwilioMsg("+14437224218", input.textMessage);
+      // return grandparent;
+      return;
+    }),
+  sendMessageWithNumber: publicProcedure
+    .input(z.object({ textMessage: z.string(), phoneNumber: z.string() }))
+    .mutation(async ({ input }) => {
+      await sendTwilioMsg(input.phoneNumber, input.textMessage);
       // return grandparent;
       return;
     }),
