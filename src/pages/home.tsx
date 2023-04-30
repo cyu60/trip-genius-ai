@@ -7,6 +7,7 @@ import { Sidebar } from "~/components/Sidebar";
 import { Trip, trips } from "~/assets/constants";
 import { TripGrid } from "~/components/TripGrid";
 import { useEffect, useState } from "react";
+import { PlusIcon } from "@heroicons/react/20/solid";
 
 // import SessionProvider from "~/utils/SessionProvider";
 // import { Chinat } from "../assets/constants";
@@ -25,12 +26,13 @@ const Explore: NextPage = () => {
       <Sidebar>
         <div className="p-10">
           {!!myTrips && myTrips.length > 0 ? (
-            <TripGrid title="My trips" trips={myTrips}></TripGrid>
+            <TripGrid title="My trips" trips={myTrips} addTrips={true}></TripGrid>
           ) : (
             <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
               My trips
             </h2>
           )}
+          
         </div>
         {/* {trips.map((trip) => (
           <TripModal trip={trip} key={trip.label} />

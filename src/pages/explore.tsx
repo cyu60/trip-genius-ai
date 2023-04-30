@@ -18,7 +18,7 @@ const Explore: NextPage = () => {
     <>
       <Sidebar>
         <div className="p-10">
-          <TripGrid title={"Popular trips"} trips={trips}></TripGrid>
+          <TripGrid title={"Popular trips"} trips={trips} addTrips={false}></TripGrid>
         </div>
         {/* {trips.map((trip) => (
           <TripModal trip={trip} key={trip.label} />
