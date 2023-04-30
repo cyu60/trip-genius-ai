@@ -1,4 +1,5 @@
 export type Trip = {
+    id: Int16Array;
     label: string;
     location: string;
     distance: string;
@@ -19,6 +20,7 @@ export type Trip = {
   
 export const trips = [
   {
+    id: 1,
     label: "Sweet trip at Cherry springs",
     location: "Cherry Springs",
     distance: "150 km",
@@ -54,6 +56,7 @@ export const trips = [
       "https://lh3.googleusercontent.com/p/AF1QipPAT80niKrYzx7kg9SKMmAm25rVB9Q4fDqzj5EO=s1360-w1360-h1020",
   },
   {
+    id: 2,
     label: "Coastal Adventure in Big Sur",
     location: "Big Sur, California",
     distance: "400 km",
@@ -91,6 +94,7 @@ export const trips = [
   },
 
   {
+    id: 3,
     label: "Wine Tasting in Napa Valley",
     location: "Napa Valley, California",
     distance: "120 km",
@@ -128,6 +132,7 @@ export const trips = [
       "https://www.tripsavvy.com/thmb/n23hJcFojjVxRER9m-lwjSY-C-s=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/napa-valley-california-wine-country-vineyard-field-harvest-for-winery-494416494-28b52eb2c8ca415a93be31caa5bba097.jpg",
   },
   {
+    id: 4,
     label: "Safari Adventure in Serengeti",
     location: "Serengeti National Park, Tanzania",
     distance: "13000 km",
@@ -165,6 +170,7 @@ export const trips = [
       "https://upload.wikimedia.org/wikipedia/commons/e/e8/Serengeti_sunset-1001.jpg",
   },
   {
+    id: 5,
     label: "Winter Wonderland in Banff",
     location: "Banff, Alberta, Canada",
     distance: "3500 km",
@@ -201,6 +207,7 @@ export const trips = [
       "https://cdn.audleytravel.com/3980/2847/79/1314674-banff-national-park-alberta.jpg",
   },
   {
+    id: 6,
     label: "Historic Road Trip in Route 66",
     location: "Route 66, United States",
     distance: "4000 km",
@@ -237,6 +244,7 @@ export const trips = [
       "https://d3hne3c382ip58.cloudfront.net/files/uploads/bookmundi/resized/cmsfeatured/us-route-66-1534758213-785X440.jpg",
   },
   {
+    id: 7,
     label: "Exploring the Outback in Uluru",
     location: "Uluru, Northern Territory, Australia",
     distance: "14000 km",
@@ -274,6 +282,7 @@ export const trips = [
       "https://s1.at.atcdn.net/wp-content/uploads/2018/09/Uluru_hero-768x369.jpg",
   },
   {
+    id: 8,
     label: "Camping in the Grand Tetons",
     location: "Grand Teton National Park, Wyoming, United States",
     distance: "3000 km",
@@ -311,6 +320,7 @@ export const trips = [
       "https://cdn.aarp.net/content/dam/aarp/travel/Domestic/2021/08/1140-canoe-ride-at-grand-teton.jpg",
   },
   {
+    id: 9,
     label: "Exploring the Highlands in Scotland",
     location: "Scottish Highlands, Scotland",
     distance: "500 km",
@@ -348,6 +358,7 @@ export const trips = [
       "https://a.cdn-hotels.com/gdcs/production37/d721/2a75874a-eaad-4412-8a34-b0abbc5a098e.jpg?impolicy=fcrop&w=800&h=533&q=medium",
   },
   {
+    id: 10,
     label: "Sailing the Amalfi Coast",
     location: "Amalfi Coast, Italy",
     distance: "7500 km",
@@ -391,6 +402,7 @@ export const trips = [
       "https://www.travelandleisure.com/thmb/n149x4IEv7uTFUHqaE2tQT8PInQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/header-positano-AMALFI0622-39a49349a2c145e6b3df85f884cf3217.jpg",
   },
   {
+    id: 11,
     label: "Experiencing Nature in Yosemite",
     location: "Yosemite National Park, California, United States",
     distance: "3000 km",
@@ -428,6 +440,7 @@ export const trips = [
       "https://lh3.googleusercontent.com/p/AF1QipPl0KzMc-EVDFOHS7W10Gz6RPa1Kss4JZqszXa7=s1360-w1360-h1020",
   },
   {
+    id: 12,
     label: "Cultural Immersion in Tokyo",
     location: "Tokyo, Japan",
     distance: "10000 km",
@@ -470,6 +483,7 @@ export const trips = [
     image: "https://i.insider.com/5d26280921a86107bb51bd92?width=700",
   },
   {
+    id: 13,
     label: "Adventure in the Swiss Alps",
     location: "Swiss Alps, Switzerland",
     distance: "700 km",
@@ -507,6 +521,7 @@ export const trips = [
       "https://media.worldnomads.com/travel-safety/switzerland/lauterbrunnen-valley-switzerland-gettyimages-1024638132.jpg",
   },
   {
+    id: 14,
     label: "Relaxation on the Beaches of Bali",
     location: "Bali, Indonesia",
     distance: "14000 km",
@@ -544,6 +559,7 @@ export const trips = [
       "https://a.cdn-hotels.com/gdcs/production143/d1112/c4fedab1-4041-4db5-9245-97439472cf2c.jpg",
   },
   {
+    id: 15,
     label: "Exploring the Ancient Pyramids of Giza",
     location: "Giza, Egypt",
     distance: "6000 km",
