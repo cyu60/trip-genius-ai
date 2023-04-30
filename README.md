@@ -1,29 +1,23 @@
-# Create T3 App
+# TripGeniusAI
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This project is an AI powered web app that provides users with AI generated itineraries for travel. 
 
-## What's next? How do I make an app with this?
+## How does it work?
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+TripGeniusAI is fed a location and generates custom trip plans that work around the users time and budget constraints and playlists that match the vibe of the vacation. Additionally, it takes into consideration the environmental impact of travelling and helps users understand and offset their emissions. 
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+## Benefits
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+TripGeniusAI provides its users with benefits that help with mental health, cultivate education, and make travel more accessible.   
 
-## Learn More
+### Mental Health
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+Although traveling helps reduce stress, improve mindfulness, and boosts mood, the process of planning for a trip can cause unecessary strain. TripGeniusAI takes the pressure off the travellers and allows them to enjoy the journey. 
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### Educational
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+Traveling can provide a great number of educational opportunities, but finding the right ones can be a hassle. TripGeniusAI makes this easy by providing users with recommendations of travel spots that are educational, allowing travellers to learn through their adventures. 
 
-## How do I deploy this?
+### Accessibility
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
-# trip-genius-ai
+A typical passenger vehicle emits about 4.6 metric tons of carbon dioxide per year. Traveling can add to this by adding a lot of uneccessary greenhouse emissions, making it difficult to travel green. TripGeniusAI makes it easy for users to offset their carbon emissions, making traveling more eco-friendly accessible. 
