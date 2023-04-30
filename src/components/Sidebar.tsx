@@ -35,6 +35,7 @@ import {
 } from "@heroicons/react/20/solid";
 import { MapLogo } from "./MapLogo";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const teams = [
   //   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
@@ -58,7 +59,12 @@ export const Sidebar: React.FC<{
   const router = useRouter();
   const { pathname } = router;
   const navigation = [
-    { name: "My Trips", href: "/", icon: HomeIcon, current: pathname === "/" },
+    {
+      name: "My Trips",
+      href: "/home",
+      icon: HomeIcon,
+      current: pathname === "/home",
+    },
     {
       name: "Explore Trips",
       href: "/explore",
@@ -147,7 +153,9 @@ export const Sidebar: React.FC<{
                         src={mapLogo}
                         alt="AI trip planner"
                       /> */}
-                      <MapLogo></MapLogo>
+                      <Link href={"/"}>
+                        <MapLogo></MapLogo>
+                      </Link>
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -155,7 +163,7 @@ export const Sidebar: React.FC<{
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
+                                <Link
                                   href={item.href}
                                   className={classNames(
                                     item.current
@@ -169,7 +177,7 @@ export const Sidebar: React.FC<{
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </Link>
                               </li>
                             ))}
                           </ul>
@@ -225,7 +233,9 @@ export const Sidebar: React.FC<{
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <MapLogo></MapLogo>
+              <Link href={"/"}>
+                <MapLogo></MapLogo>
+              </Link>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -233,7 +243,7 @@ export const Sidebar: React.FC<{
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
+                        <Link
                           href={item.href}
                           className={classNames(
                             item.current
@@ -247,7 +257,7 @@ export const Sidebar: React.FC<{
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     ))}
                   </ul>

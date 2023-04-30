@@ -241,7 +241,7 @@ export default function Example() {
 
               <MapLogo></MapLogo>
               <div className="mt-24 sm:mt-32 lg:mt-16">
-                <a href="#" className="inline-flex space-x-6">
+                <Link href="/create" className="inline-flex space-x-6">
                   <span className="rounded-full bg-indigo-500/10 px-3 py-1 text-sm font-semibold leading-6 text-indigo-400 ring-1 ring-inset ring-indigo-500/20">
                     Latest updates
                   </span>
@@ -252,7 +252,7 @@ export default function Example() {
                       aria-hidden="true"
                     />
                   </span>
-                </a>
+                </Link>
               </div>
               <h1 className="mt-10 text-4xl font-bold tracking-tight text-white sm:text-6xl">
                 TripGeniusAI - Your Personal Travel Assistant
@@ -375,14 +375,14 @@ export default function Example() {
                   </dt>
                   <dd className="mt-1 flex flex-auto flex-col text-base leading-7 text-gray-300">
                     <p className="flex-auto">{feature.description}</p>
-                    <p className="mt-6">
+                    {/* <p className="mt-6">
                       <a
                         href={feature.href}
                         className="text-sm font-semibold leading-6 text-indigo-400"
                       >
                         Learn more <span aria-hidden="true">→</span>
                       </a>
-                    </p>
+                    </p> */}
                   </dd>
                 </div>
               ))}
