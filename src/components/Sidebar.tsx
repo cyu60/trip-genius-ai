@@ -14,6 +14,7 @@
 */
 import { Fragment, useState } from "react";
 import { Dialog, Menu, Transition } from "@headlessui/react";
+// import MapLogo from '../public/mapLogo.svg';
 import {
   Bars3Icon,
   BellIcon,
@@ -26,26 +27,19 @@ import {
   UsersIcon,
   XMarkIcon,
   MagnifyingGlassCircleIcon,
-  PlusIcon
+  PlusIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
+import { MapLogo } from "./MapLogo";
+import { useRouter } from "next/router";
 
-const navigation = [
-  { name: "My Trips", href: "/", icon: HomeIcon, current: true },
-  { name: "Explore Trips", href: "/explore", icon: MagnifyingGlassCircleIcon, current: false },
-  { name: "Create Trip", href: "/create", icon: PlusIcon, current: false },
-//   { name: "Projects", href: "#", icon: FolderIcon, current: false },
-//   { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-//   { name: "Documents", href: "#", icon: DocumentDuplicateIcon, current: false },
-//   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
-];
 const teams = [
-//   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
-//   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
-//   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
+  //   { id: 1, name: "Heroicons", href: "#", initial: "H", current: false },
+  //   { id: 2, name: "Tailwind Labs", href: "#", initial: "T", current: false },
+  //   { id: 3, name: "Workcation", href: "#", initial: "W", current: false },
 ];
 const userNavigation = [
   { name: "Your profile", href: "#" },
@@ -61,6 +55,24 @@ export const Sidebar: React.FC<{
   // children: React.FC[];
   // children: React.FC[] | React.FC | undefined;
 }> = ({ children }) => {
+  const router = useRouter();
+  const { pathname } = router;
+  const navigation = [
+    { name: "My Trips", href: "/", icon: HomeIcon, current: pathname === "/" },
+    {
+      name: "Explore Trips",
+      href: "/explore",
+      icon: MagnifyingGlassCircleIcon,
+      current: pathname === "/explore",
+    },
+    {
+      name: "Create Trip",
+      href: "/create",
+      icon: PlusIcon,
+      current: pathname === "/create",
+    },
+    //   { name: "Reports", href: "#", icon: ChartPieIcon, current: false },
+  ];
   // export default function Sidebar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -130,11 +142,12 @@ export const Sidebar: React.FC<{
                   {/* Sidebar component, swap this element with another sidebar if you like */}
                   <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4 ring-1 ring-white/10">
                     <div className="flex h-16 shrink-0 items-center">
-                      <img
+                      {/* <img
                         className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                        alt="Your Company"
-                      />
+                        src={mapLogo}
+                        alt="AI trip planner"
+                      /> */}
+                      <MapLogo></MapLogo>
                     </div>
                     <nav className="flex flex-1 flex-col">
                       <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -212,11 +225,7 @@ export const Sidebar: React.FC<{
           {/* Sidebar component, swap this element with another sidebar if you like */}
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-gray-900 px-6 pb-4">
             <div className="flex h-16 shrink-0 items-center">
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                alt="Your Company"
-              />
+              <MapLogo></MapLogo>
             </div>
             <nav className="flex flex-1 flex-col">
               <ul role="list" className="flex flex-1 flex-col gap-y-7">
@@ -286,7 +295,7 @@ export const Sidebar: React.FC<{
         </div>
 
         <div className="lg:pl-72">
-          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8 lg:hidden">
+          <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:hidden lg:px-8">
             <button
               type="button"
               className="-m-2.5 p-2.5 text-gray-700 lg:hidden"
@@ -388,11 +397,11 @@ export const Sidebar: React.FC<{
           </div>
 
           {/* <main className="py-10"> */}
-            {/* <div className="px-4 sm:px-6 lg:px-8"> */}
-              {/* Your content */}
-              {children}
-            </div>
-          {/* </main> */}
+          {/* <div className="px-4 sm:px-6 lg:px-8"> */}
+          {/* Your content */}
+          {children}
+        </div>
+        {/* </main> */}
         {/* </div> */}
       </div>
     </>
