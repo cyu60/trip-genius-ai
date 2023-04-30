@@ -28,9 +28,11 @@ const Explore: NextPage = () => {
           {!!myTrips && myTrips.length > 0 ? (
             <TripGrid title="My trips" trips={myTrips} addTrips={true}></TripGrid>
           ) : (
-            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-              My trips
-            </h2>
+            <TripGrid title="My trips" trips={[]} addTrips={true}></TripGrid>
+            // <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+            //   My trips
+            // </h2>
+
           )}
           
         </div>

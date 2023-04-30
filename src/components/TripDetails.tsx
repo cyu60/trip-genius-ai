@@ -28,7 +28,9 @@ export const TripDetails: React.FC<{
     // const myTrips: Trip[] = JSON.parse(
     //   sessionStorage.getItem("MyTrips") as string
     // );
-    toast(`${trip.label} is added to your list trips! Let's have an adventure!`);
+    toast(
+      `${trip.label} is added to your list trips! Let's have an adventure!`
+    );
     if (myTrips) {
       sessionStorage.setItem("MyTrips", JSON.stringify([...myTrips, trip]));
       setTrips([...myTrips, trip]);
@@ -72,6 +74,16 @@ export const TripDetails: React.FC<{
   return (
     <div>
       <TripHeader trip={trip}></TripHeader>
+      <div className="flex flex-wrap gap-x-6 gap-y-0.5 pt-3">
+        {trip.tags.map((t, i) => (
+          <span
+            key={i}
+            className="inline-flex items-center rounded-full bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-700"
+          >
+            {t}
+          </span>
+        ))}
+      </div>
 
       <div className="flex">
         <div className="pt-5">
