@@ -3,9 +3,8 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { TripModal } from "~/components/TripModal";
-import { Sidebar } from "~/components/Sidebar";
-import { trips } from "~/assets/constants";
-import { TripGrid } from "~/components/TripGrid";
+import { Trip, trips } from "~/assets/constants";
+import { TripDetails } from "~/components/TripDetails";
 
 // import SessionProvider from "~/utils/SessionProvider";
 // import { Chinat } from "../assets/constants";
@@ -13,18 +12,12 @@ import { TripGrid } from "~/components/TripGrid";
 // import { Chat } from "../components/Chat";
 // import MainInterface from "~/components/Main";
 
-const Explore: NextPage = () => {
+const Modal: NextPage = () => {
   return (
     <>
-      <Sidebar>
-        <div className="p-10">
-          <TripGrid title="My trips" trips={[]}></TripGrid>
-        </div>
-        {/* {trips.map((trip) => (
-          <TripModal trip={trip} key={trip.label} />
-        ))} */}
-      </Sidebar>
+      <TripDetails trip={trips[0] as Trip}/>
+      {/* <TripModal trip={trips[0] as Trip}/> */}
     </>
   );
 };
-export default Explore;
+export default Modal;

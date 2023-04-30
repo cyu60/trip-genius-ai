@@ -3,9 +3,10 @@ import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
 import { TripModal } from "~/components/TripModal";
+import { Trip, trips } from "~/assets/constants";
+import { TripDetails } from "~/components/TripDetails";
+import { useRouter } from "next/router";
 import { Sidebar } from "~/components/Sidebar";
-import { trips } from "~/assets/constants";
-import { TripGrid } from "~/components/TripGrid";
 
 // import SessionProvider from "~/utils/SessionProvider";
 // import { Chinat } from "../assets/constants";
@@ -13,18 +14,21 @@ import { TripGrid } from "~/components/TripGrid";
 // import { Chat } from "../components/Chat";
 // import MainInterface from "~/components/Main";
 
-const Explore: NextPage = () => {
+const TripInfo: NextPage = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  if (isNaN(Number(id))) {
+    return null;
+  }
   return (
     <>
       <Sidebar>
-        <div className="p-10">
-          <TripGrid title="My trips" trips={[]}></TripGrid>
+        <div className="p-8">
+          <TripDetails trip={trips[Number(id)] as Trip} />
         </div>
-        {/* {trips.map((trip) => (
-          <TripModal trip={trip} key={trip.label} />
-        ))} */}
       </Sidebar>
+      {/* <TripModal trip={trips[0] as Trip}/> */}
     </>
   );
 };
-export default Explore;
+export default TripInfo;
