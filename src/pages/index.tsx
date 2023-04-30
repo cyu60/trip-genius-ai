@@ -4,8 +4,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { TripModal } from "~/components/TripModal";
 import { Sidebar } from "~/components/Sidebar";
-import { trips } from "~/assets/constants";
+import { Trip, trips } from "~/assets/constants";
 import { TripGrid } from "~/components/TripGrid";
+import { useEffect, useState } from "react";
 
 // import SessionProvider from "~/utils/SessionProvider";
 // import { Chinat } from "../assets/constants";
@@ -14,11 +15,23 @@ import { TripGrid } from "~/components/TripGrid";
 // import MainInterface from "~/components/Main";
 
 const Explore: NextPage = () => {
+  const [myTrips, setTrips] = useState<Trip[]>([]);
+  useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-argument
+    setTrips(JSON.parse(sessionStorage.getItem("MyTrips") as string));
+    // const myTrips: Trip[] =
+  }, []);
   return (
     <>
       <Sidebar>
         <div className="p-10">
-          <TripGrid title="My trips" trips={[]}></TripGrid>
+          {!!myTrips && myTrips.length > 0 ? (
+            <TripGrid title="My trips" trips={myTrips}></TripGrid>
+          ) : (
+            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+              My trips
+            </h2>
+          )}
         </div>
         {/* {trips.map((trip) => (
           <TripModal trip={trip} key={trip.label} />

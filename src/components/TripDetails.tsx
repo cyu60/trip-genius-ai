@@ -13,6 +13,17 @@ export const TripDetails: React.FC<{
 }> = ({ trip }) => {
   // export default function TripDetails() {
   const [open, setOpen] = useState(true);
+  const addTrip = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const myTrips: Trip[] = JSON.parse(
+      sessionStorage.getItem("MyTrips") as string
+    );
+    if (myTrips) {
+      sessionStorage.setItem("MyTrips", JSON.stringify([...myTrips, trip]));
+    } else {
+      sessionStorage.setItem("MyTrips", JSON.stringify([trip]));
+    }
+  };
 
   return (
     // <Transition.Root show={open} as={Fragment}>
@@ -52,15 +63,27 @@ export const TripDetails: React.FC<{
                       </div>
                     </div> */}
       {/* <div className="flex"></div> */}
-      <div className="pt-5">
-        <a
-          // type="button"
-          href="https://sustainabletravel.org/our-work/carbon-offsets/calculate-footprint/"
-          target="_blank"
-          className="rounded-full bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
-        >
-          Offset carbon footprint
-        </a>
+      <div className="flex">
+        <div className="pt-5">
+          <a
+            // type="button"
+            href="https://sustainabletravel.org/our-work/carbon-offsets/calculate-footprint/"
+            target="_blank"
+          >
+            <div className="rounded-full bg-green-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600">
+              Offset carbon footprint
+            </div>
+          </a>
+        </div>
+        <div className="pl-3 pt-5">
+          <div
+            // type="button"
+            className="rounded-full bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={() => addTrip()}
+          >
+            Add to my trips
+          </div>
+        </div>
       </div>
       <div className="flex h-screen flex-col sm:flex-row">
         <div className="flex-1">
