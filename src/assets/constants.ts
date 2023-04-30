@@ -1,3 +1,5 @@
+import { ChatCompletionRequestMessage } from "openai";
+
 export type Trip = {
     id: number;
     label: string;
@@ -596,4 +598,60 @@ export const trips = [
     image:
       "https://i.natgeofe.com/n/535f3cba-f8bb-4df2-b0c5-aaca16e9ff31/giza-plateau-pyramids.jpg?w=636&h=424",
   },
+];
+
+export const dummyConversation: ChatCompletionRequestMessage[] = [
+  { role: "user", content: "Hi, I'm planning a trip to Europe." },
+  {
+    role: "assistant",
+    content:
+      "Great! I can help with that. Where in Europe are you planning to go?",
+  },
+  {
+    role: "user",
+    content: "I'm thinking of visiting Paris, Rome, and Barcelona.",
+  },
+  {
+    role: "assistant",
+    content: "Sounds like a fantastic trip! When are you planning to go?",
+  },
+  {
+    role: "user",
+    content: "I'm planning to go in the summer, around August.",
+  },
+  {
+    role: "assistant",
+    content:
+      "That's a popular time to visit Europe. How long will you be staying?",
+  },
+  {
+    role: "user",
+    content: "I'm planning to stay for three weeks.",
+  },
+  {
+    role: "assistant",
+    content:
+      "Three weeks should give you enough time to explore these cities thoroughly. Do you need help with booking flights or accommodations?",
+  },
+  {
+    role: "user",
+    content:
+      "Yes, I would appreciate some recommendations for affordable accommodations.",
+  },
+  {
+    role: "assistant",
+    content:
+      "Sure! For Paris, you can consider staying in budget hotels like Ibis or Holiday Inn Express. In Rome, budget options like Hotel Artemide or Hotel Quirinale are good choices. And in Barcelona, you can check out Hotel Acta Antibes or Hotel Ronda House. Would you like me to help with booking?",
+  },
+  {
+    role: "user",
+    content:
+      "Yes, please! Can you find me the best deals for flights from my location to these cities?",
+  },
+  {
+    role: "assistant",
+    content:
+      "Sure! Can you please provide me with your current location and travel dates? I'll find the best flight options for you.",
+  },
+  // ... continue with more conversation messages
 ];

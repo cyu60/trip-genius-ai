@@ -17,62 +17,13 @@ import {
 import { Sidebar } from "~/components/Sidebar";
 import { TripDetails } from "~/components/TripDetails";
 import { Trip, trips } from "~/assets/constants";
+import {
+  extractTrip,
+  filterMessages,
+  replaceImageUrls,
+} from "~/components/Google";
 
-const dummyConversation: ChatCompletionRequestMessage[] = [
-  { role: "user", content: "Hi, I'm planning a trip to Europe." },
-  {
-    role: "assistant",
-    content:
-      "Great! I can help with that. Where in Europe are you planning to go?",
-  },
-  {
-    role: "user",
-    content: "I'm thinking of visiting Paris, Rome, and Barcelona.",
-  },
-  {
-    role: "assistant",
-    content: "Sounds like a fantastic trip! When are you planning to go?",
-  },
-  {
-    role: "user",
-    content: "I'm planning to go in the summer, around August.",
-  },
-  {
-    role: "assistant",
-    content:
-      "That's a popular time to visit Europe. How long will you be staying?",
-  },
-  {
-    role: "user",
-    content: "I'm planning to stay for three weeks.",
-  },
-  {
-    role: "assistant",
-    content:
-      "Three weeks should give you enough time to explore these cities thoroughly. Do you need help with booking flights or accommodations?",
-  },
-  {
-    role: "user",
-    content:
-      "Yes, I would appreciate some recommendations for affordable accommodations.",
-  },
-  {
-    role: "assistant",
-    content:
-      "Sure! For Paris, you can consider staying in budget hotels like Ibis or Holiday Inn Express. In Rome, budget options like Hotel Artemide or Hotel Quirinale are good choices. And in Barcelona, you can check out Hotel Acta Antibes or Hotel Ronda House. Would you like me to help with booking?",
-  },
-  {
-    role: "user",
-    content:
-      "Yes, please! Can you find me the best deals for flights from my location to these cities?",
-  },
-  {
-    role: "assistant",
-    content:
-      "Sure! Can you please provide me with your current location and travel dates? I'll find the best flight options for you.",
-  },
-  // ... continue with more conversation messages
-];
+
 
 const initialQuestion: ChatCompletionRequestMessage = {
   role: "assistant",
@@ -80,8 +31,13 @@ const initialQuestion: ChatCompletionRequestMessage = {
 };
 const systemPrompt: ChatCompletionRequestMessage = {
   role: "system",
-  content: `As a helpful assistant, your role is to suggest useful itinerary information to users planning trips. This involves providing recommendations for activities, attractions, and events that match the user's interests and preferences. You should be knowledgeable about a wide range of destinations and have an understanding of the best times of year to visit them, as well as any local customs or traditions that may be of interest to the user.
-  In addition to suggesting itinerary ideas, you should also be able to provide practical information such as transportation options, weather forecasts, and hotel recommendations. You should be able to answer questions about visa requirements, travel restrictions, and any other logistical issues that may arise during the trip planning process`,
+  content: `Respond in markdown. 
+
+  As a helpful assistant, your role is to suggest useful itinerary information to users planning trips with images. This involves providing recommendations for activities, attractions, and events that match the user's interests and preferences. You should be knowledgeable about a wide range of destinations and have an understanding of the best times of year to visit them, as well as any local customs or traditions that may be of interest to the user.  
+  In addition to suggesting itinerary ideas, you should also be able to provide practical information such as transportation options, weather forecasts, and hotel recommendations. You should be able to answer questions about visa requirements, travel restrictions, and any other logistical issues that may arise during the trip planning process
+
+  You provide images by calling the SEARCH_IMG() function. eg SEARCH_IMG("Tiananmen"). No markdown.
+  `,
 };
 
 const Home: NextPage = () => {
@@ -90,6 +46,7 @@ const Home: NextPage = () => {
     ChatCompletionRequestMessage[]
   >([initialQuestion]);
   const [assistantResponse, setAssistantResponse] = useState("");
+  const [trip, setTrip] = useState<Trip>();
 
   const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
@@ -114,20 +71,19 @@ const Home: NextPage = () => {
             ))}
             {isLoading && (
               <ConversationBox
-                // addUserInput={addUserInput}
                 conversation={{
                   role: "assistant",
                   content:
                     assistantResponse === "" ? "Loading..." : assistantResponse,
                 }}
-                // imgSrc={agentImage}
-                // agent={agentAI}
-                // date={""}
               />
             )}
-            {/* <div className="pl-20">
-              <TripDetails trip={trips[0] as Trip}></TripDetails>
-            </div> */}
+
+            {!!trip && (
+              <div className="pl-20">
+                <TripDetails trip={trip}></TripDetails>
+              </div>
+            )}
             <div className="p-10"></div>
             {/* <ConversationBox
                 conversation={{
@@ -145,6 +101,7 @@ const Home: NextPage = () => {
             setConversation={setConversation}
             isLoading={isLoading}
             setIsLoading={setIsLoading}
+            setTrip={setTrip}
           />
           {/* </div> */}
         </main>
@@ -152,6 +109,13 @@ const Home: NextPage = () => {
     </>
   );
 };
+const ImageRenderer: React.FC<{ src: string; alt: string }> = ({
+  src,
+  alt,
+}) => (
+  // <img src={src} />
+  <img src={src} alt={alt} />
+);
 
 const ConversationBox: React.FC<{
   conversation: ChatCompletionRequestMessage;
@@ -170,11 +134,27 @@ const ConversationBox: React.FC<{
             )}
           </div>
         </div>
-        <div className="">
+        <div className="prose">
           <p className="italic text-indigo-600">
             {conversation.role === "user" ? "You" : "AI trip planner"}
           </p>
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+          <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
+            // components={{ img: ImageRenderer}}
+            components={{
+              img: (props) => (
+                <div className="aspect-square block w-full overflow-hidden rounded-lg p-5 md:max-h-fit md:max-w-lg">
+                  {/* <div className="aspect-h-7 aspect-w-10 block w-5/12 h-5/12 overflow-hidden rounded-lg"> */}
+                  <img
+                    src={props.src}
+                    alt={props.alt}
+                    className="pointer-events-none rounded-lg object-cover "
+                  />
+                </div>
+              ),
+            }}
+            // components={{ img: (props) => <img src={props.src} alt={props.alt} className="h-5"/> }}
+          >
             {conversation.content}
           </ReactMarkdown>
         </div>
@@ -182,6 +162,17 @@ const ConversationBox: React.FC<{
     </div>
   );
 };
+
+// children={conversation.content}
+// components={{
+//   image() {
+//     return (
+//       <img {...props}>
+//         {children}
+//       </img>
+//     );
+//   },
+// }}
 
 const UserInputBox: React.FC<{
   userInput: string;
@@ -192,6 +183,7 @@ const UserInputBox: React.FC<{
   setAssistantResponse: Dispatch<SetStateAction<string>>;
   conversation: ChatCompletionRequestMessage[];
   setConversation: Dispatch<SetStateAction<ChatCompletionRequestMessage[]>>;
+  setTrip: Dispatch<SetStateAction<Trip | undefined>>;
 }> = ({
   userInput,
   setUserInput,
@@ -200,6 +192,7 @@ const UserInputBox: React.FC<{
   setAssistantResponse,
   isLoading,
   setIsLoading,
+  setTrip
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
   // const [rows, setRows] = useState(1);
@@ -209,7 +202,7 @@ const UserInputBox: React.FC<{
 
     const payload = {
       userInput: userInput,
-      messages: conversation as ChatGPTMessage[],
+      messages: filterMessages(conversation as ChatGPTMessage[]),
       systemPrompt: systemPrompt.content,
     };
     setUserInput("");
@@ -263,6 +256,11 @@ const UserInputBox: React.FC<{
         //   ...userInputNoAI,
         //   assistantResponse: staticAssistantResponse,
         // };
+        staticAssistantResponse = await replaceImageUrls(
+          staticAssistantResponse
+        );
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        // setTrip(extractTrip(staticAssistantResponse));
         setConversation([
           ...conversation,
           {
@@ -280,28 +278,6 @@ const UserInputBox: React.FC<{
         // });
       }
     }
-    // const assistantResponseObj = await openai.createChatCompletion({
-    //   model: "gpt-3.5-turbo",
-    //   messages: [
-    //     systemPrompt,
-    //     ...conversation,
-    //     { role: "user", content: userInput },
-    //   ],
-    // });
-
-    // const assistantResponse =
-    //   assistantResponseObj?.data?.choices[0]?.message?.content || "";
-    // console.log(userInput, assistantResponse, [
-    //   ...conversation,
-    //   { role: "user", content: userInput },
-    //   { role: "assistant", content: assistantResponse },
-    // ]);
-
-    // setConversation([
-    //   ...conversation,
-    //   { role: "user", content: userInput },
-    //   { role: "assistant", content: assistantResponse },
-    // ]);
     setIsLoading(false);
   };
   function calculateRows(text: string, maxCharsPerRow: number) {
