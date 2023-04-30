@@ -18,6 +18,10 @@ Although traveling helps reduce stress, improve mindfulness, and boosts mood, th
 
 Traveling can provide a great number of educational opportunities, but finding the right ones can be a hassle. TripGeniusAI makes this easy by providing users with recommendations of travel spots that are educational, allowing travellers to learn through their adventures. 
 
-### Accessibility
+### Environmental
 
-A typical passenger vehicle emits about 4.6 metric tons of carbon dioxide per year. Traveling can add to this by adding a lot of uneccessary greenhouse emissions, making it difficult to travel green. TripGeniusAI makes it easy for users to offset their carbon emissions, making traveling more eco-friendly accessible. 
+A typical passenger vehicle emits about 4.6 metric tons of carbon dioxide per year. Traveling can add to this by adding a lot of uneccessary greenhouse emissions, making it difficult to travel green. TripGeniusAI makes it easy for users to offset their carbon emissions, making traveling more eco-friendly and accessible. 
+
+## Our Inspiration
+
+We started by brainstorming our skill-set and identifying problems that we personally faced in work, relationships, health, and play. From that we determined that there was a need for a platform that promotes mental well-being, education, and eco-friendliness. To determine how we wanted to solve this, we interviewed over 15 students to gauge the best way to approach this problem. From those interviews, we saw that most students preferred shorter road trips over semester long study abroad, although there was still interest in traveling longer distances. We also saw that an important factor for the trips, aside from money and time, was the music playlist. We took all of this information and created TripGeniusAI, a hassle-free way of traveling. 
