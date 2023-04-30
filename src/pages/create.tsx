@@ -15,15 +15,64 @@ import {
   OpenAIStreamPayload,
 } from "../utils/OpenAIStream";
 import { Sidebar } from "~/components/Sidebar";
+import { TripDetails } from "~/components/TripDetails";
+import { Trip, trips } from "~/assets/constants";
 
-// if (!process.env.NEXT_PUBLIC_OPEN_AI_API_KEY) {
-//   throw new Error("Missing API key");
-// }
-// const configuration = new Configuration({
-//   apiKey: process.env.NEXT_PUBLIC_OPEN_AI_API_KEY,
-// });
-
-// const openai = new OpenAIApi(configuration);
+const dummyConversation: ChatCompletionRequestMessage[] = [
+  { role: "user", content: "Hi, I'm planning a trip to Europe." },
+  {
+    role: "assistant",
+    content:
+      "Great! I can help with that. Where in Europe are you planning to go?",
+  },
+  {
+    role: "user",
+    content: "I'm thinking of visiting Paris, Rome, and Barcelona.",
+  },
+  {
+    role: "assistant",
+    content: "Sounds like a fantastic trip! When are you planning to go?",
+  },
+  {
+    role: "user",
+    content: "I'm planning to go in the summer, around August.",
+  },
+  {
+    role: "assistant",
+    content:
+      "That's a popular time to visit Europe. How long will you be staying?",
+  },
+  {
+    role: "user",
+    content: "I'm planning to stay for three weeks.",
+  },
+  {
+    role: "assistant",
+    content:
+      "Three weeks should give you enough time to explore these cities thoroughly. Do you need help with booking flights or accommodations?",
+  },
+  {
+    role: "user",
+    content:
+      "Yes, I would appreciate some recommendations for affordable accommodations.",
+  },
+  {
+    role: "assistant",
+    content:
+      "Sure! For Paris, you can consider staying in budget hotels like Ibis or Holiday Inn Express. In Rome, budget options like Hotel Artemide or Hotel Quirinale are good choices. And in Barcelona, you can check out Hotel Acta Antibes or Hotel Ronda House. Would you like me to help with booking?",
+  },
+  {
+    role: "user",
+    content:
+      "Yes, please! Can you find me the best deals for flights from my location to these cities?",
+  },
+  {
+    role: "assistant",
+    content:
+      "Sure! Can you please provide me with your current location and travel dates? I'll find the best flight options for you.",
+  },
+  // ... continue with more conversation messages
+];
 
 const initialQuestion: ChatCompletionRequestMessage = {
   role: "assistant",
@@ -59,7 +108,7 @@ const Home: NextPage = () => {
           {/* <h1 className="text-5xl font-extrabold tracking-tight text-black sm:text-[5rem]">
               Plan your next awesome trip!
             </h1> */}
-          <div className="min-h-full w-full max-w-xl divide-y-4 divide-white bg-white">
+          <div className=" overflow-scroll-y w-full divide-y-4 divide-white bg-white pb-20">
             {conversation.map((c, i) => (
               <ConversationBox conversation={c} key={i} />
             ))}
@@ -76,17 +125,27 @@ const Home: NextPage = () => {
                 // date={""}
               />
             )}
-            <UserInputBox
-              // assistantResponse={assistantResponse}
-              setAssistantResponse={setAssistantResponse}
-              userInput={userInput}
-              setUserInput={setUserInput}
-              conversation={conversation}
-              setConversation={setConversation}
-              isLoading={isLoading}
-              setIsLoading={setIsLoading}
-            />
+            {/* <div className="pl-20">
+              <TripDetails trip={trips[0] as Trip}></TripDetails>
+            </div> */}
+            <div className="p-10"></div>
+            {/* <ConversationBox
+                conversation={{
+                  role: "system",
+                  content: "",
+                }}
+              /> */}
           </div>
+          <UserInputBox
+            // assistantResponse={assistantResponse}
+            setAssistantResponse={setAssistantResponse}
+            userInput={userInput}
+            setUserInput={setUserInput}
+            conversation={conversation}
+            setConversation={setConversation}
+            isLoading={isLoading}
+            setIsLoading={setIsLoading}
+          />
           {/* </div> */}
         </main>
       </Sidebar>
@@ -98,22 +157,27 @@ const ConversationBox: React.FC<{
   conversation: ChatCompletionRequestMessage;
 }> = ({ conversation }) => {
   return (
-    <div className="flex gap-4 p-3">
-      {/* profile pic */}
-      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-500 p-6">
-        <div>
-          {conversation.role === "user" ? (
-            <UserIcon></UserIcon>
-          ) : (
-            <AssistantIcon />
-          )}
+    <div className="">
+      {/* <div className="group w-full text-gray-800 dark:text-gray-100 border-b border-black/10 dark:border-gray-900/50 bg-gray-50 dark:bg-[#444654]"> */}
+      <div className="flex gap-4 p-3">
+        {/* profile pic */}
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500 p-6">
+          <div>
+            {conversation.role === "user" ? (
+              <UserIcon></UserIcon>
+            ) : (
+              <AssistantIcon />
+            )}
+          </div>
         </div>
-      </div>
-      <div className="">
-        <p className="italic text-slate-600">{conversation.role}</p>
-        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-          {conversation.content}
-        </ReactMarkdown>
+        <div className="">
+          <p className="italic text-indigo-600">
+            {conversation.role === "user" ? "You" : "AI trip planner"}
+          </p>
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {conversation.content}
+          </ReactMarkdown>
+        </div>
       </div>
     </div>
   );
@@ -138,6 +202,7 @@ const UserInputBox: React.FC<{
   setIsLoading,
 }) => {
   // const [isLoading, setIsLoading] = useState(false);
+  // const [rows, setRows] = useState(1);
 
   const handleClick = async () => {
     setIsLoading(true);
@@ -190,6 +255,7 @@ const UserInputBox: React.FC<{
       const chunkValue = decoder.decode(value);
       setAssistantResponse((prev: string) => prev + chunkValue);
       staticAssistantResponse += chunkValue;
+      window.scrollTo(0, document.body.scrollHeight);
       // console.log(chunkValue, doneReading, assistantResponse);
       if (done) {
         // console.log("assistant response", assistantResponse, staticAssistantResponse, "done", done);
@@ -238,18 +304,102 @@ const UserInputBox: React.FC<{
     // ]);
     setIsLoading(false);
   };
+  function calculateRows(text: string, maxCharsPerRow: number) {
+    const length = text.length + 1;
+
+    const rows = Math.ceil(length / maxCharsPerRow);
+
+    return rows < 6 ? rows : 6;
+  }
 
   return (
-    <div className="flex items-center ">
+    <div className="flex items-center">
       {/* User Input */}
-      <textarea
+      <div className="fixed bottom-0 left-0 w-full border-t bg-white pt-2 dark:border-white/20 md:border-t-0 md:border-transparent md:!bg-transparent">
+        <form className="stretch mx-2 flex flex-row gap-3 last:mb-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
+          <div className="relative flex h-full flex-1 items-stretch md:flex-col">
+            <div className="relative flex w-full flex-grow flex-row rounded-md border border-black/10 bg-white py-2 shadow-[0_0_10px_rgba(0,0,0,0.10)] dark:border-gray-900/50 dark:bg-gray-700 dark:text-white dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] md:py-3 md:pl-4">
+              <textarea
+                rows={calculateRows(userInput, 110)}
+                placeholder="Send a message."
+                className="m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 focus:outline-none dark:bg-transparent md:pl-0"
+                // className="m-0 block w-full rounded-md border-0 bg-transparent p-0 pl-2 pr-7 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 md:pl-0"
+                // className="m-0 block w-full rounded-md border-0 bg-transparent p-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                onChange={(e) => setUserInput(e.target.value)}
+                value={userInput}
+                disabled={isLoading}
+                onKeyDown={(event) => {
+                  event.key == "Enter" && !event.shiftKey
+                    ? void handleClick()
+                    : null;
+                  // event.key == "Enter" && event.shiftKey ? void handleClick() : null;
+                  // console.log("event", event, event.key);
+                }}
+              ></textarea>
+
+              {/* <textarea
+                // tabindex="0"
+                rows={calculateRows(userInput, 60)}
+                placeholder="Send a message."
+                className="m-0 w-full resize-none border-0 bg-transparent p-0 pl-2 pr-7 dark:bg-transparent md:pl-0"
+              ></textarea>
+              <button
+                // disabled=""
+                className="absolute bottom-1.5 right-1 rounded-md p-1 text-gray-500 hover:bg-gray-100 disabled:opacity-40 disabled:hover:bg-transparent dark:hover:bg-gray-900 enabled:dark:hover:text-gray-400 dark:disabled:hover:bg-transparent md:bottom-2.5 md:right-2"
+              >
+                <svg
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-width="2"
+                  viewBox="0 0 24 24"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  className="mr-1 h-4 w-4"
+                  height="1em"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <line x1="22" y1="2" x2="11" y2="13"></line>
+                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+              </button> */}
+              <div className="mr-3 flex h-9 w-9 items-center justify-center rounded-full bg-indigo-500">
+                {isLoading ? (
+                  <div>
+                    <Spinner />
+                  </div>
+                ) : (
+                  <div onClick={() => void handleClick()}>
+                    <NextIcon></NextIcon>
+                  </div>
+                )}
+              </div>
+            </div>
+            {/* <div className="">
+              <div className="ml-1 flex h-full justify-center gap-0 md:m-auto md:mb-2 md:w-full md:gap-2"></div>
+            </div> */}
+          </div>
+        </form>
+        <div className=" px-3 pb-3 pt-2 text-center text-xs text-gray-600 dark:text-gray-300 md:px-4 md:pb-6 md:pt-3">
+          <span>
+            Travel Planner AI may produce inaccurate information about people,
+            places, or facts.{" "}
+          </span>
+        </div>
+      </div>
+      {/* <textarea
         className="block w-full rounded-md border-0 p-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         onChange={(e) => setUserInput(e.target.value)}
         value={userInput}
         disabled={isLoading}
+        onKeyDown={(event) => {
+          event.key == "Enter" && !event.shiftKey ? void handleClick() : null;
+          // event.key == "Enter" && event.shiftKey ? void handleClick() : null;
+          // console.log("event", event, event.key);
+        }}
       ></textarea>
 
-      <div className="m-3 flex h-10 w-10 items-center justify-center rounded-full bg-slate-500 p-6">
+      <div className="m-3 flex h-10 w-10 items-center justify-center rounded-full bg-indigo-500 p-6">
         {isLoading ? (
           <div>
             <Spinner />
@@ -260,6 +410,7 @@ const UserInputBox: React.FC<{
           </div>
         )}
       </div>
+      */}
     </div>
   );
 };
@@ -340,7 +491,7 @@ const AssistantIcon: React.FC = () => {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M8.25 3v1.5M4.5 8.25H3m18 0h-1.5M4.5 12H3m18 0h-1.5m-15 3.75H3m18 0h-1.5M8.25 19.5V21M12 3v1.5m0 15V21m3.75-18v1.5m0 15V21m-9-1.5h10.5a2.25 2.25 0 002.25-2.25V6.75a2.25 2.25 0 00-2.25-2.25H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25zm.75-12h9v9h-9v-9z"
+        d="M15.59 14.37a6 6 0 01-5.84 7.38v-4.8m5.84-2.58a14.98 14.98 0 006.16-12.12A14.98 14.98 0 009.631 8.41m5.96 5.96a14.926 14.926 0 01-5.841 2.58m-.119-8.54a6 6 0 00-7.381 5.84h4.8m2.581-5.84a14.927 14.927 0 00-2.58 5.84m2.699 2.7c-.103.021-.207.041-.311.06a15.09 15.09 0 01-2.448-2.448 14.9 14.9 0 01.06-.312m-2.24 2.39a4.493 4.493 0 00-1.757 4.306 4.493 4.493 0 004.306-1.758M16.5 9a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"
       />
     </svg>
   );
