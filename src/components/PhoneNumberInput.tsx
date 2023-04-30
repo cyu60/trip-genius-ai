@@ -1,19 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
-// export default function Example() {
-
 import { useState } from "react";
 import { api } from "~/utils/api";
 import { ToastContainer, toast } from "react-toastify";
@@ -43,15 +27,11 @@ export const PhoneNumberInput: React.FC<{
       name +
       "! Saathvik just invited you on his trip. Whohoo! Check it out here: " +
       window.location.href;
-    //   "https://https://trip-genius-ai.vercel.app/";
-    //   "https://https://trip-genius-ai.vercel.app/trip/" +
-    //   String(trip.id);
-    console.log(number, name, message);
+    // console.log(number, name, message);
     sendMsgToFriend.mutate({
       textMessage: message,
       phoneNumber: "+1" + number,
     });
-    // Should trigger a toaster
     toast(`An invite message is send to ${name}!`);
     setName("");
     setNumber("");
